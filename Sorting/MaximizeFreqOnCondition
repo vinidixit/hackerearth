@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Mar 16 15:53:30 2020
+
+@author: vdixit
+"""
+
+
+'''
+# Sample code to perform I/O:
+
+name = input()                  # Reading input from STDIN
+print('Hi, %s.' % name)         # Writing output to STDOUT
+
+# Warning: Printing unwanted or ill-formatted data to output will cause the test cases to fail
+'''
+
+# Write your code here
+from collections import Counter
+T = int(input())
+
+for _ in range(T):
+    n = int(input())
+    arr = map(int, input().split())
+    freq_map = Counter(arr)
+    sorted_arr = sorted(freq_map.items(), reverse = True)
+
+    best_diff = -1 #-sys.maxsize - 1
+    """
+    # Brute force O(n^2)
+    for i in range(len(sorted_arr)):
+        for j in range(i+1, len(sorted_arr)):
+            best_diff = max(best_diff, sorted_arr[i][1] - sorted_arr[j][1])
+    """
+
+    # stack approach: save max points, and calculate when min points : O(n)
+    #stack = list() # not required
+    cur_max_freq = None
+    for _, freq in sorted_arr:
+        #if not stack or stack[-1] <= freq:
+        if not cur_max_freq or cur_max_freq < freq:
+            cur_max_freq = freq
+            #stack.append(freq)
+        else:
+           best_diff = max(best_diff, cur_max_freq - freq) 
+
+    print(best_diff)
+
+
